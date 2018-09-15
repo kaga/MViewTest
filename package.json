@@ -1,0 +1,12 @@
+{
+  "name": "melviewapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/index.js",
+  "scripts": {
+    "start": "tsc -w",
+    "test": "mocha ./build/*.unit.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
