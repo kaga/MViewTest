@@ -1,18 +1,33 @@
 import { UnitStatus } from './unitStatusModel'
 import { Unit } from './unitApi';
+import { HttpRequestHelper, HttpOption, SuperagentHelper } from './httpRequestHelper';
+import { constant } from './constant';
 
 export class MelViewApi {
 
-    constructor(parameters: Parameters) {
+    private requestHelper: HttpRequestHelper;
 
+    constructor(private parameters: Parameters) {
+        if (parameters.requestHelper) {
+            this.requestHelper = parameters.requestHelper
+        } else {
+            this.requestHelper = new SuperagentHelper();
+        }
     }
 
-    // login() {
+    getUnit(unitId: string): Promise<Unit>  {
+        return Promise.resolve(new Unit(unitId, this.parameters, this.requestHelper));
+    }
 
-    // }
-
-    getRooms(): Promise<Unit[]>  {
-        
+    private login() {
+        return this.requestHelper.post({
+            url: '/api/login.aspx',
+            body: {
+                user: this.parameters.username,
+                pass: this.parameters.password,
+                appversion: constant.appVersion
+            }
+        });
     }
 
     // getUnitCapabilities(): Promise<void> {
@@ -27,6 +42,7 @@ export class MelViewApi {
 export interface Parameters {
     username: string;
     password: string;
+    requestHelper?: HttpRequestHelper;
 }
 
 interface BuildingResponse {
@@ -47,5 +63,3 @@ interface RoomResponse {
     status: string;
     schedule1: number;
 }
-
-

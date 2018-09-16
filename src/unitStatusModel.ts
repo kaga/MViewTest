@@ -1,5 +1,3 @@
-import { setCommentRange } from "typescript";
-
 export interface UnitStatusResponse {
     id: string,
 	power: number; // 0 for off, 1 for on
